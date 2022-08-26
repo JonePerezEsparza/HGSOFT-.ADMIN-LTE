@@ -1,0 +1,176 @@
+
+
+<div id="nuevoPaciente" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo Paciente</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form class="row g-3 needs-validation" novalidate>
+      
+      <div class="modal-body">
+        <input type="hidden" name:"ID" id="ID">
+
+
+        <div class="row">
+            <div class="col-12">
+              <label for="DNI" class="form-label">DNI</label>
+              <input type="text" class="form-control" id="DNI" placeholder="Ingrese DNI" required>
+              <div class="invalid-feedback">
+                Ingrese DNI
+              </div>
+          </div>
+
+            <div class="col-12">
+              <label for="txtNombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="txtnombre" placeholder="Ingrese nombre" required>
+              <div class="invalid-feedback">
+                Ingrese nombre
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="txtApe" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="txtape" placeholder="Ingrese apellido" required>
+              <div class="invalid-feedback">
+                   Ingrese apellido
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="choisesx" class="form-label">Sexo Biologico </label>
+              <input type="checkbox" class="checkbox" id="choisesx">
+              <label for="choisesx">MASCULINO</label>
+              <input type="checkbox" class="checkbox" id="choisesx">
+              <label for="choisesx">FEMENINO</label>
+             
+              
+            </div>
+           
+
+            <div class="col-12">
+              <label for="datefecha" class="form-label">Fecha de Nacimiento</label>
+              <input type="date" class="form-control" id="datefecha" placeholder="Ingrese Fecha" required>
+              <div class="invalid-feedback">
+                Seleccione fecha
+              </div>
+            </div>
+
+            
+          
+        </div>
+
+
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button class="btn btn-primary" type="submit">Guardar</button>
+      </div>
+    </form>
+      
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  console.log(forms);
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+
+      console.log(form);
+
+      form.addEventListener('submit', function (event) {
+
+        console.log("validacion");
+
+        if (form.checkValidity()) {
+          
+          guardarPaciente();
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})();
+
+
+
+
+  
+ function guardarPaciente()
+ {
+
+  var id_pc=$("#ID").val();
+
+  if(id_pc)
+   {
+
+  $.ajax(
+      {
+        type:"put",
+        url:"http://podosoft2.com/api/v1/clientes/"+id_pc,
+        data: {
+          dni:$("#DNI").val(),
+          nombre:$("#txtnombre").val(),
+          apellido:$("#txtape").val(),
+          sexo:$("#choisesx").val(),
+          birth:$("#datefecha").val(),
+      },
+        success:function(response)
+            {
+              window.FlashMessage.success('La categoria se guardo correctamente');
+
+                $('#nuevoPaciente').modal("hide");
+
+                recargarData();
+            }
+       }
+        );
+    }
+  else
+  {
+
+$.ajax(
+    {
+      type:"post",
+      url:"http://podosoft2.com/api/v1/pacientes",
+      data: {
+        dni:$("#DNI").val(),
+        nombre:$("#txtnombre").val(),
+        apellido:$("#txtape").val(),
+        sexo:$("#choisesx").val(),
+        birth:$("#datefecha").val(),  
+    },
+      success:function(response)
+      {
+        window.FlashMessage.success('La categoria se guardo correctamente');
+              $('#nuevoPaciente').modal("hide");
+              recargarData();
+}});
+}}
+
+  
+
+
+ 
+
+
+</script>

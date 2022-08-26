@@ -1,0 +1,13 @@
+html {
+    background-color: black;
+    height: 100%;
+    overflow: hidden;
+    font-family: system-ui;
+
+}
+
+body {
+    margin: 0;
+    padding: 0 ;
+    height: 100%;
+}
